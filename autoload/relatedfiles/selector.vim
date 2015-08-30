@@ -1,12 +1,7 @@
 let s:plugin = maktaba#plugin#Get('relatedfiles')
 
 " Functions for editing related files
-let s:editfns = { 'h' : 's:EditHeader', 'c' : 's:EditCC', 't' : 's:EditTest' }
-function! relatedfiles#selector#JumpToRelatedFile(related_type) abort " {{{
-  call call(s:editfns[a:related_type], [])
-endfunction
-
-function! s:EditHeader() abort
+function! s:EditHeader() abort " {{{
   let l:filename = expand("%")
   if l:filename =~# ".*\.h$"
     echo "Already in header file."
@@ -52,5 +47,14 @@ function! s:EditTest() abort
     return
   endif
   execute s:plugin.Flag('open_command') fnameescape(l:filename . "_unittest.cc")
+endfunction
+
+let s:editfns = {
+      \ 'h' : function('s:EditHeader'),
+      \ 'c' : function('s:EditCC'),
+      \ 't' : function('s:EditTest')
+      \ }
+function! relatedfiles#selector#JumpToRelatedFile(related_type) abort
+  call call(s:editfns[a:related_type], [])
 endfunction
 " }}}
