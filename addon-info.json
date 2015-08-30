@@ -1,0 +1,6 @@
+{
+  "description": "Find and navigate related files",
+  "dependencies": {
+    "maktaba": {"type": "git", "url": "git://github.com/google/vim-maktaba"},
+  }
+}
